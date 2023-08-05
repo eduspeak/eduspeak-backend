@@ -1,14 +1,14 @@
 package middleware
 
 import (
-	model "github.com/abiyyu03/movie-api/models"
+	model "github.com/eduspeak/eduspeak-backend/models"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
 //union type 
 type Input interface {
-	model.Movie | model.User
+	model.Membership
 }
 
 // ErrrorResponse is a struct to format error
