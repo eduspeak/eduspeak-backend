@@ -4,7 +4,11 @@ import (
 	"github.com/eduspeak/eduspeak-backend/models"
 	"github.com/eduspeak/eduspeak-backend/config"
 	"github.com/gofiber/fiber/v2" 
+	"github.com/google/uuid"
 	"time"
+	"fmt"
+	"strings"
+	// "os"
 )
 
 type MembershipController struct{}
@@ -19,6 +23,7 @@ func (m *MembershipController) GetAll(c *fiber.Ctx) error{
 		"data":memberships,
 	})
 } 
+
 func (m *MembershipController) GetById(c *fiber.Ctx) error {
 	var memberships []models.Membership
 	id := c.Params("id")
@@ -49,6 +54,18 @@ func (m *MembershipController) CreateData(c *fiber.Ctx) error {
 	if err := c.BodyParser(&memberships); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+
+	file, err := c.FormFile("proof_of_payment")
+
+	if err!= nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	uniqueId := uuid.New()
+	filename := strings.Replace(uniqueId.String(),"-","",-1)
+	fileExt := strings.Split(file.Filename, ".")[1]
+	image := fmt.Sprintf("%s.%s", filename, fileExt)
+	err = c.SaveFile(file, fmt.Sprintf("./images/%s", image))
 
 	now := time.Now()
 	UserId := memberships.UserId 
