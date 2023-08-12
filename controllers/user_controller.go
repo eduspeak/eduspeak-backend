@@ -6,6 +6,6 @@ import (
 
 type UserController struct{}
 
-func (u *UserController) Test(c *fiber.Ctx) error {
+func (u *UserController) All(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"Test":"work"});
 }
