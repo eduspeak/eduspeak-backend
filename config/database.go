@@ -5,16 +5,20 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm" 
 	"os"
-	// "fmt"
+	"log"
+	"github.com/joho/godotenv" 
 ) 
-
-type Config struct {
-	dbUser string
-	dbPassword string
+   
+func goDotEnv(key string) string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	return os.Getenv(key)
 }
-var dbPass string = os.Getenv("DBPASS")
-var dbUser string = os.Getenv("DBUSER")
-var dbName string = os.Getenv("DBNAME")
+var dbPass string = goDotEnv("DBPASS")
+var dbUser string = goDotEnv("DBUSER")
+var dbName string = goDotEnv("DBNAME")
 
 var Database *gorm.DB
 
@@ -32,7 +36,14 @@ func Connect() error {
 		panic(err)
 	}
 
-	Database.AutoMigrate(&models.Membership{})
+	Database.AutoMigrate(
+		&models.Membership{},
+		&models.Course{},
+		&models.Article{},
+		&models.Video{},
+		&models.Quiz{},
+		&models.Grade{},
+	)
 
 	return nil
 }
