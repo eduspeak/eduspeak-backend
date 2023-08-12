@@ -57,7 +57,7 @@ func (m *MembershipController) CreateData(c *fiber.Ctx) error {
 
 	file, err := c.FormFile("proof_of_payment")
 
-	if err!= nil {
+	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -86,11 +86,21 @@ func (m *MembershipController) CreateData(c *fiber.Ctx) error {
 	})
 }
 
-func (m *MembershipController) UpdateStatus(c *fiber.Ctx) error {
-	var memberships *models.Membership 
+// func (m *MembershipController) UpdateStatus(c *fiber.Ctx) error {
+// 	var memberships *models.Membership 
+// 	id := c.Params("id")
 
-	config.Database.Model(&memberships).Update(&memberships,id)
-}
+// 	if err := c.BodyParser(&memberships); err!= nil {
+//         return c.Status(500).SendString(err.Error())
+//     }
+
+// 	config.Database.Where("id = ?", id).Update(&memberships,id)
+// 	return c.Status(201).JSON(fiber.Map{
+// 		"code":201,
+// 		"message":"Status updated successfully",
+// 		"data":memberships,
+// 	})
+// }
 
 func (m *MembershipController) Update(c *fiber.Ctx) error {
 	return c.SendString("Add Membership number")

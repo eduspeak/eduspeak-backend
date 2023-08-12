@@ -16,5 +16,5 @@ type Course struct {
 	Rating int `json:"rating" validate:"required"`
 	IsDone int `json:"is_done" validate:"required"` 
 	LastUpdate time.Time `json:"last_update" validate:"required"`
-	TotalModule int `json:"total_module" validate:"required"`
+	// TotalModule int `json:"total_module" validate:"required"`
 }
