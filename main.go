@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv" 
 	"github.com/eduspeak/eduspeak-backend/config"
 	"log"
+	"os"
 )
 
 func main(){
@@ -44,5 +45,5 @@ func main(){
 	courseContent.Post("/video/create",courseContentController.CreateVideoData)
 	courseContent.Post("/article/create",courseContentController.CreateArticleData)
 	
-	app.Listen(":8080")
+	app.Listen(os.Getenv("PORT"))
 }
