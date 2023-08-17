@@ -6,7 +6,7 @@ import (
 	"github.com/joho/godotenv" 
 	"github.com/eduspeak/eduspeak-backend/config"
 	"log"
-	"os"
+	// "os"
 )
 
 func main(){
@@ -38,12 +38,16 @@ func main(){
 	// course.Get("/:id",courseController.GetById)
 	// course.Delete("/:id",courseController.Delete)
 	course.Get("/grade/:grade_id",courseController.GetAllByGrade)
+	course.Get("/enroll/:course_id",courseController.GetCountEnrollCourse)
 	course.Post("/",courseController.CreateData)
-	// course.Put("/:id",courseController.Update)
+	course.Put("/:course_id/done",courseController.MarkCourseAsComplete) //update course status
 
-	courseContent.Get("/",courseContentController.GetBasedFromCourse)
+	courseContent.Get("/",courseContentController.GetBasedFromCourse) //for sidebar 
 	courseContent.Post("/video/create",courseContentController.CreateVideoData)
 	courseContent.Post("/article/create",courseContentController.CreateArticleData)
+	courseContent.Post("/quiz/create",courseContentController.CreateQuizData)
+	courseContent.Get("/:content_type/:course_id",courseContentController.ShowLearningContent) //for main learning content 
+	courseContent.Put("/:content_type/:course_id/done",courseContentController.MarkContentAsComplete)
 	
-	app.Listen(os.Getenv("PORT"))
+	app.Listen(":8080")
 }

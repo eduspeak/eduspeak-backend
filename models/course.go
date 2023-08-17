@@ -16,5 +16,8 @@ type Course struct {
 	Rating int `json:"rating" validate:"required"`
 	IsDone int `json:"is_done" validate:"required"` 
 	LastUpdate time.Time `json:"last_update" validate:"required"`
+	Article []Article `gorm:"foreignKey:CourseId"`
+	Video []Video `gorm:"foreignKey:CourseId"`
+	Quiz []Quiz `gorm:"foreignKey:CourseId"`
 	// TotalModule int `json:"total_module" validate:"required"`
 }

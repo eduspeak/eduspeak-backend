@@ -10,5 +10,5 @@ type Quiz struct {
 	Title string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	IsDone int `json:"is_done" validate:"required"` 
-	CourseId string `json:"course_id" validate:"required"` 
+	CourseId int `json:"course_id" validate:"required"` 
 }

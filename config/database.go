@@ -43,6 +43,7 @@ func Connect() error {
 		&models.Video{},
 		&models.Quiz{},
 		&models.Grade{},
+		&models.Enroll{},
 	)
 
 	return nil

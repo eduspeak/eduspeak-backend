@@ -67,3 +67,101 @@ func (cc *CourseContentController) CreateArticleData(c *fiber.Ctx) error {
 		"data":articleNew,
 	})
 }
+
+func (q *CourseContentController) CreateQuizData(c *fiber.Ctx) error {
+	var quizzes *models.Quiz 
+
+	if err := c.BodyParser(&quizzes); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+ 
+	Title := quizzes.Title 
+	CourseId := quizzes.CourseId  
+	Description := quizzes.Description   
+	IsDone := quizzes.IsDone   
+
+	quizNew := models.Quiz{
+		Title:Title,
+		CourseId:CourseId,
+		Description:Description, 
+		IsDone:IsDone, 
+	}
+	config.Database.Create(&quizNew) 
+	return c.Status(201).JSON(fiber.Map{
+		"code":201,
+		"message":"Data created successfully",
+		"data":quizNew,
+	})
+}
+
+func (cc *CourseContentController) ShowLearningContent(c *fiber.Ctx) error {
+	courseId := c.Params("course_id")
+	contentType := c.Params("content_type") 
+	var articles *models.Article
+	var videos *models.Video
+	var quizzes *models.Quiz
+
+	
+	if contentType == "article" { 
+		config.Database.Where("course_id = ?", courseId).Find(&articles)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Article data successfully",
+			"data":&articles,
+		})
+	} else if contentType == "video" {
+		config.Database.Where("course_id = ?",courseId).Find(&videos)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Video data successfully",
+			"data":&videos,
+		})
+	} else if contentType == "quiz"{
+		config.Database.Where("course_id = ?",courseId).Find(&quizzes)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Quiz data successfully",
+			"data":&quizzes,
+		})
+	}
+	return c.Status(404).JSON(fiber.Map{
+		"code":404,
+		"message":"Not Found", 
+	})
+}
+
+func (cc *CourseContentController) MarkContentAsComplete(c *fiber.Ctx) error {
+	courseId := c.Params("course_id")
+	contentType := c.Params("content_type") 
+	var articles *models.Article
+	var videos *models.Video
+	var quizzes *models.Quiz
+
+	
+	if contentType == "article" { 
+		config.Database.Model(&articles).Where("course_id = ?", courseId).Update("is_done",1)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Article completed",
+			"data":&articles,
+		})
+	} else if contentType == "video" {
+		config.Database.Model(&videos).Where("course_id = ?",courseId).Update("is_done",1)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Video completed",
+			"data":&videos,
+		})
+	} else if contentType == "quiz"{
+		config.Database.Model(&quizzes).Where("course_id = ?",courseId).Update("is_done",1)
+		return c.Status(200).JSON(fiber.Map{
+			"code":"200",
+			"message":"Quiz completed",
+			"data":&quizzes,
+		})
+	}
+	return c.Status(404).JSON(fiber.Map{
+		"code":"404",
+		"message":"not found", 
+	})
+}
