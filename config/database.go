@@ -2,13 +2,13 @@ package config
 
 import (
 	"github.com/eduspeak/eduspeak-backend/models"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
-	"gorm.io/gorm" 
-	"os"
+	"gorm.io/gorm"
 	"log"
-	"github.com/joho/godotenv" 
-) 
-   
+	"os"
+)
+
 func goDotEnv(key string) string {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -16,20 +16,21 @@ func goDotEnv(key string) string {
 	}
 	return os.Getenv(key)
 }
+
 var dbPass string = goDotEnv("DBPASS")
 var dbUser string = goDotEnv("DBUSER")
 var dbName string = goDotEnv("DBNAME")
 
 var Database *gorm.DB
 
-var DATABASE_URI string = dbUser+":"+dbPass+"@tcp(localhost:3306)/"+dbName+"?charset=utf8mb4&parseTime=True&loc=Local"
+var DATABASE_URI string = dbUser + ":" + dbPass + "@tcp(localhost:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
 func Connect() error {
 	var err error
 
 	Database, err = gorm.Open(mysql.Open(DATABASE_URI), &gorm.Config{
 		SkipDefaultTransaction: true,
-		PrepareStmt: true,
+		PrepareStmt:            true,
 	})
 
 	if err != nil {
@@ -43,7 +44,11 @@ func Connect() error {
 		&models.Video{},
 		&models.Quiz{},
 		&models.Grade{},
-		&models.Enroll{},
+		&models.EnrollCourse{},
+		&models.EnrollCourseContent{},
+		&models.Question{},
+		&models.Answer{},
+		&models.QuizStatistic{},
 	)
 
 	return nil

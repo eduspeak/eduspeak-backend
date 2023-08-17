@@ -5,10 +5,10 @@ import (
 )
 
 type Quiz struct {
-	gorm.Model 
-	Id int `json:"id,omitempty,autoIncrement"` 
-	Title string `json:"title" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	IsDone int `json:"is_done" validate:"required"` 
-	CourseId int `json:"course_id" validate:"required"` 
+	gorm.Model
+	Id                  int                   `json:"id,omitempty,autoIncrement"`
+	Title               string                `json:"title" validate:"required"`
+	Description         string                `json:"description" validate:"required"`
+	CourseId            int                   `json:"course_id" validate:"required"`
+	EnrollCourseContent []EnrollCourseContent `gorm:"foreignKey:QuizId"`
 }
