@@ -1,12 +1,13 @@
 package config
 
 import (
+	"log"
+	"os"
+
 	"github.com/eduspeak/eduspeak-backend/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
-	"os"
 )
 
 func goDotEnv(key string) string {
@@ -23,7 +24,7 @@ var dbName string = goDotEnv("DBNAME")
 
 var Database *gorm.DB
 
-var DATABASE_URI string = dbUser + ":" + dbPass + "@tcp(localhost:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+var DATABASE_URI string = dbUser + ":" + dbPass + "@tcp(db:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
 func Connect() error {
 	var err error

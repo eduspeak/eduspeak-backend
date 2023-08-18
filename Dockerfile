@@ -1,14 +1,22 @@
+# Use an official Golang runtime as the base image
 FROM golang:1.20.4
 
+# Set the working directory
 WORKDIR /app
 
-COPY go.mod ./
-RUN go mod download
+# Copy the Go Modules files
+COPY go.mod go.sum ./
 
+# Download and install dependencies
+RUN go mod download
+# Copy the source code into the container
 COPY . ./
 
-RUN go build -o app
+# Build the Go application
+RUN CGO_ENABLED=0 GOOS=linux go build -o app .
 
-EXPOSE 8080
+# Expose the port that the application runs on
+EXPOSE 3000
 
-CMD [ "./app" ]
+# Command to run the executable
+CMD ["./app"]

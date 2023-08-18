@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/app
+    environment:
+      - PORT=8080
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=debian-sys-maint
+      - DB_PASSWORD=J5mVTuJgsyz8N6to
+      - DB_NAME=eduspeak
+    command: go run main.go
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=J5mVTuJgsyz8N6to
+      - MYSQL_DATABASE=eduspeak
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
