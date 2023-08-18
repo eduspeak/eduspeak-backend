@@ -64,7 +64,7 @@ func (co *CourseController) CreateData(c *fiber.Ctx) error {
 
 func (co *CourseController) EnrollCourse(c *fiber.Ctx) error {
 	var enrolls *models.EnrollCourse
-	var enrollCoursesContent *models.EnrollCourseContent
+	// var enrollCoursesContent *models.EnrollCourseContent
 	courseId := c.Params("course_id")
 
 	if err := c.BodyParser(&enrolls); err != nil {
