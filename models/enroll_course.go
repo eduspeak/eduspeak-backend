@@ -12,4 +12,5 @@ type EnrollCourse struct {
 	Enrolled_at time.Time `json:"enrolled_at" validate:"required"`
 	UserId      int       `json:"user_id" validate:"required"`
 	IsDone      int       `json:"is_done" validate:"required" gorm:"default:0"`
+	EnrollCourseContent []EnrollCourseContent `gorm:"foreignKey:EnrollCourseId"`
 }

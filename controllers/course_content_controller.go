@@ -96,21 +96,21 @@ func (cc *CourseContentController) ShowLearningContent(c *fiber.Ctx) error {
 	var quizzes *models.Quiz
 
 	if contentType == "article" {
-		config.Database.Where("course_id = ?", courseId).Find(&articles)
+		config.Database.Where("course_id = ?", courseId).First(&articles)
 		return c.Status(200).JSON(fiber.Map{
 			"code":    "200",
 			"message": "Article data successfully",
 			"data":    &articles,
 		})
 	} else if contentType == "video" {
-		config.Database.Where("course_id = ?", courseId).Find(&videos)
+		config.Database.Where("course_id = ?", courseId).First(&videos)
 		return c.Status(200).JSON(fiber.Map{
 			"code":    "200",
 			"message": "Video data successfully",
 			"data":    &videos,
 		})
 	} else if contentType == "quiz" {
-		config.Database.Where("course_id = ?", courseId).Find(&quizzes)
+		config.Database.Where("course_id = ?", courseId).First(&quizzes)
 		return c.Status(200).JSON(fiber.Map{
 			"code":    "200",
 			"message": "Quiz data successfully",

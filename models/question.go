@@ -9,4 +9,5 @@ type Question struct {
 	Id           int    `json:"id,omitempty,autoIncrement"`
 	QuestionText string `json:"question_text" validate:"required"`
 	QuizId       int    `json:"quiz_id" validate:"required"`
+	Answer []Answer `gorm:"foreignKey:QuestionId"`
 }

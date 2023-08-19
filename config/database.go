@@ -24,7 +24,7 @@ var dbName string = goDotEnv("DBNAME")
 
 var Database *gorm.DB
 
-var DATABASE_URI string = dbUser + ":" + dbPass + "@tcp(db:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+var DATABASE_URI string = dbUser + ":" + dbPass + "@tcp(localhost:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
 func Connect() error {
 	var err error
@@ -40,16 +40,16 @@ func Connect() error {
 
 	Database.AutoMigrate(
 		&models.Membership{},
-		&models.Course{},
-		&models.Article{},
-		&models.Video{},
-		&models.Quiz{},
-		&models.Grade{},
 		&models.EnrollCourse{},
 		&models.EnrollCourseContent{},
 		&models.Question{},
 		&models.Answer{},
 		&models.QuizStatistic{},
+		&models.Course{},
+		&models.Article{},
+		&models.Video{},
+		&models.Quiz{},
+		&models.Grade{},
 	)
 
 	return nil
