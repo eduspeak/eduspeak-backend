@@ -21,11 +21,13 @@ func main(){
 	membershipController:= new(controller.MembershipController)
 	courseContentController:= new(controller.CourseContentController)
 	courseController:= new(controller.CourseController)
+	quizController:= new(controller.QuizController)
 
 	user := app.Group("/user")
 	membership := app.Group("/membership")
 	course := app.Group("/course")
 	courseContent := app.Group("/course_content")
+	quiz := app.Group("/course_content/quiz")
 
 	user.Get("/",userController.All)
 
@@ -35,10 +37,11 @@ func main(){
 	membership.Post("/",membershipController.CreateData)
 	membership.Put("/:id",membershipController.Update)
 	
-	// course.Get("/:id",courseController.GetById)
+	course.Get("/",courseController.GetAll)
 	// course.Delete("/:id",courseController.Delete)
 	course.Get("/grade/:grade_id",courseController.GetAllByGrade)
-	course.Get("/enroll/:course_id",courseController.GetCountEnrollCourse)
+	course.Get("/enroll/get/:course_id",courseController.GetCountEnrollCourse)
+	course.Post("/enroll/:course_id",courseController.EnrollingCourse)
 	course.Post("/",courseController.CreateData)
 	course.Put("/:course_id/done",courseController.MarkCourseAsComplete) //update course status
 
@@ -47,7 +50,14 @@ func main(){
 	courseContent.Post("/article/create",courseContentController.CreateArticleData)
 	courseContent.Post("/quiz/create",courseContentController.CreateQuizData)
 	courseContent.Get("/:content_type/:course_id",courseContentController.ShowLearningContent) //for main learning content 
-	courseContent.Put("/:content_type/:course_id/done",courseContentController.MarkContentAsComplete)
+	courseContent.Put("/:content_type/:course_id/done",courseContentController.MarkContentAsComplete) 
+
+	quiz.Post("/question/create",quizController.CreateQuestionData)	
+	quiz.Post("/answer/create",quizController.CreateAnswerData)	
+	quiz.Get("/get/:quiz_id",quizController.GetQuestionAndAnswerData)	
+	quiz.Post("/result",quizController.StoreQuizResult)	
+	quiz.Get("/result",quizController.GetQuizResult)	
+	quiz.Get("/result/all",quizController.GetQuizResult)	
 	
 	app.Listen(":8080")
 }

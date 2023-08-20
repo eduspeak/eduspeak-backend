@@ -18,7 +18,6 @@ type Course struct {
 	Article             []Article             `gorm:"foreignKey:CourseId"`
 	Video               []Video               `gorm:"foreignKey:CourseId"`
 	Quiz                []Quiz                `gorm:"foreignKey:CourseId"`
-	EnrollCourseContent []EnrollCourseContent `gorm:"foreignKey:CourseId"`
 	EnrollCourse        []EnrollCourse        `gorm:"foreignKey:CourseId"`
 	// TotalModule int `json:"total_module" validate:"required"`
 }

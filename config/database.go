@@ -1,12 +1,13 @@
 package config
 
 import (
+	"log"
+	"os"
+
 	"github.com/eduspeak/eduspeak-backend/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
-	"os"
 )
 
 func goDotEnv(key string) string {
@@ -39,16 +40,16 @@ func Connect() error {
 
 	Database.AutoMigrate(
 		&models.Membership{},
-		&models.Course{},
-		&models.Article{},
-		&models.Video{},
-		&models.Quiz{},
-		&models.Grade{},
 		&models.EnrollCourse{},
 		&models.EnrollCourseContent{},
 		&models.Question{},
 		&models.Answer{},
 		&models.QuizStatistic{},
+		&models.Course{},
+		&models.Article{},
+		&models.Video{},
+		&models.Quiz{},
+		&models.Grade{},
 	)
 
 	return nil

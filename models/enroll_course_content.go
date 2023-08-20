@@ -7,7 +7,7 @@ import (
 type EnrollCourseContent struct {
 	gorm.Model
 	Id            int `json:"id,omitempty,autoIncrement"`
-	CourseId      int `json:"course_id" validate:"required"`
+	EnrollCourseId int `json:"enroll_course_id" validate:"required"`
 	UserId        int `json:"user_id" validate:"required"`
 	VideoId       int `json:"video_id" validate:"required"`
 	ArticleId     int `json:"article_id" validate:"required"`
