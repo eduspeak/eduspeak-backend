@@ -44,7 +44,7 @@ func (co *CourseController) CreateData(c *fiber.Ctx) error {
 	GradeId := courses.GradeId
 	Description := courses.Description
 	CoverCourse := courses.CoverCourse
-	Rating := courses.Rating
+	RatingAverage := courses.RatingAverage
 	LastUpdate := time.Now()
 
 	courseNew := models.Course{
@@ -52,7 +52,7 @@ func (co *CourseController) CreateData(c *fiber.Ctx) error {
 		GradeId:     GradeId,
 		Description: Description,
 		CoverCourse: CoverCourse,
-		Rating:      Rating,
+		RatingAverage:      RatingAverage,
 		LastUpdate:  LastUpdate,
 	}
 	config.Database.Model(&courses).Create(&courseNew)

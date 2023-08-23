@@ -92,22 +92,7 @@ func (q *QuizController) StoreQuizResult(c *fiber.Ctx) error {
 	})
 }
 
-func (q *QuizController) GetQuizResult(c *fiber.Ctx) error {
-	
-}
 
-
-func (q *QuizController) GetAllQuizResult(c *fiber.Ctx) error {
-	var quizStatistics []models.QuizStatistic
-
-	config.Database.Where("quiz_id = ?", quizId).Preload("Answer").Find(&quizStatistics)
-
-	return c.Status(200).JSON(fiber.Map{
-		"code":    200,
-		"message": "successfully",
-		"data":    &questions,
-	})
-}
 // 	var quizzes *models.Quiz
 
 // 	if err := c.BodyParser(&quizzes); err != nil {

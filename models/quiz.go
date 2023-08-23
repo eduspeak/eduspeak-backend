@@ -11,4 +11,6 @@ type Quiz struct {
 	Description         string                `json:"description" validate:"required"`
 	CourseId            int                   `json:"course_id" validate:"required"`
 	EnrollCourseContent []EnrollCourseContent `gorm:"foreignKey:QuizId"`
+	QuizStatistic []QuizStatistic `gorm:"foreignKey:QuizId"`
+	// User []User `gorm:"foreignKey:UserId"`
 }

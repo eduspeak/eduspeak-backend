@@ -13,11 +13,12 @@ type Course struct {
 	Description         string                `json:"description" validate:"required"`
 	CoverCourse         string                `json:"cover_course" validate:"required"`
 	IsPremium           int                   `json:"is_premium" validate:"required" gorm:"default:0"`
-	Rating              int                   `json:"rating" validate:"required"`
+	RatingAverage       int                   `json:"rating_average" validate:"required"`
 	LastUpdate          time.Time             `json:"last_update" validate:"required"`
 	Article             []Article             `gorm:"foreignKey:CourseId"`
 	Video               []Video               `gorm:"foreignKey:CourseId"`
 	Quiz                []Quiz                `gorm:"foreignKey:CourseId"`
 	EnrollCourse        []EnrollCourse        `gorm:"foreignKey:CourseId"`
+	Feedback        []Feedback        `gorm:"foreignKey:CourseId"`
 	// TotalModule int `json:"total_module" validate:"required"`
 }

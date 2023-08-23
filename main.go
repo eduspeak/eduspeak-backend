@@ -5,6 +5,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv" 
 	"github.com/eduspeak/eduspeak-backend/config"
+	// jwtware "github.com/gofiber/jwt/v3"
+	// "github.com/gofiber/fiber/v2/middleware/logger"
+	// "github.com/gofiber/fiber/v2/middleware/session"
 	"log"
 	// "os"
 )
@@ -17,19 +20,31 @@ func main(){
 	}
 	godotenv.Load(".env")
 	config.Connect()
+	
+	// app.Use(jwtware.New(config.JWTConfig))
+
 	userController:= new(controller.UserController)
+	authController:= new(controller.AuthController)
 	membershipController:= new(controller.MembershipController)
 	courseContentController:= new(controller.CourseContentController)
 	courseController:= new(controller.CourseController)
 	quizController:= new(controller.QuizController)
+	quizStatisticController:= new(controller.QuizStatisticController)
+	feedbackController:= new(controller.FeedbackController)
 
-	user := app.Group("/user")
-	membership := app.Group("/membership")
-	course := app.Group("/course")
-	courseContent := app.Group("/course_content")
-	quiz := app.Group("/course_content/quiz")
+	user := app.Group("/api/user")
+	auth := app.Group("/api/auth")
+	membership := app.Group("/api/membership")
+	course := app.Group("/api/course")
+	courseContent := app.Group("/api/course_content")
+	quiz := app.Group("/api/course_content/quiz")
+	quizStatistic := app.Group("/api/course_content/quiz/statistic")
+	feedback := app.Group("/api/course/feedback")
 
 	user.Get("/",userController.All)
+
+	auth.Post("/login",authController.Login)
+	auth.Post("/register",authController.Register)
 
 	membership.Get("/",membershipController.GetAll)
 	membership.Get("/:id",membershipController.GetById)
@@ -38,7 +53,6 @@ func main(){
 	membership.Put("/:id",membershipController.Update)
 	
 	course.Get("/",courseController.GetAll)
-	// course.Delete("/:id",courseController.Delete)
 	course.Get("/grade/:grade_id",courseController.GetAllByGrade)
 	course.Get("/enroll/get/:course_id",courseController.GetCountEnrollCourse)
 	course.Post("/enroll/:course_id",courseController.EnrollingCourse)
@@ -55,9 +69,13 @@ func main(){
 	quiz.Post("/question/create",quizController.CreateQuestionData)	
 	quiz.Post("/answer/create",quizController.CreateAnswerData)	
 	quiz.Get("/get/:quiz_id",quizController.GetQuestionAndAnswerData)	
-	quiz.Post("/result",quizController.StoreQuizResult)	
-	quiz.Get("/result",quizController.GetQuizResult)	
-	quiz.Get("/result/all",quizController.GetQuizResult)	
+	quiz.Post("/result/create",quizController.StoreQuizResult)
+
+	quizStatistic.Get("/result/:quiz_id",quizStatisticController.GetQuizResult)	
+	quizStatistic.Get("/result/all",quizStatisticController.GetAllQuizResult)	
+
+	feedback.Get("/",feedbackController.GetFeedbackByCourse) 
+	feedback.Post("/create",feedbackController.CreateFeedbackData) 
 	
 	app.Listen(":8080")
 }
