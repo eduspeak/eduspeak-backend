@@ -54,19 +54,7 @@ func (m *MembershipController) CreateData(c *fiber.Ctx) error {
 	if err := c.BodyParser(&memberships); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	file, err := c.FormFile("proof_of_payment")
-
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
-	uniqueId := uuid.New()
-	filename := strings.Replace(uniqueId.String(),"-","",-1)
-	fileExt := strings.Split(file.Filename, ".")[1]
-	image := fmt.Sprintf("%s.%s", filename, fileExt)
-	err = c.SaveFile(file, fmt.Sprintf("./images/%s", image))
-
+	
 	now := time.Now()
 	UserId := memberships.UserId 
 	Status := memberships.Status 
