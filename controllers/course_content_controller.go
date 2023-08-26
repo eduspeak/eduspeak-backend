@@ -10,13 +10,13 @@ type CourseContentController struct{}
 
 func (cc *CourseContentController) GetBasedFromCourse(c *fiber.Ctx) error {
 	//get data from article, video and quiz
-	var courses *models.Course
+	var courses []models.Course
 
 	config.Database.Preload("Article").Preload("Video").Preload("Quiz").Find(&courses)
 	return c.Status(200).JSON(fiber.Map{
 		"code":    200,
 		"message": "Success",
-		"data":    courses,
+		"data":    &courses,
 	})
 }
 
