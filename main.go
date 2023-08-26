@@ -8,6 +8,7 @@ import (
 	// jwtware "github.com/gofiber/jwt/v3"
 	// "github.com/gofiber/fiber/v2/middleware/logger"
 	// "github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 	// "os"
 )
@@ -22,6 +23,13 @@ func main(){
 	config.Connect()
 	
 	// app.Use(jwtware.New(config.JWTConfig))
+
+	app.Use(cors.New(cors.Config{
+        AllowHeaders:     "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
+        AllowOrigins:     "*",
+        AllowCredentials: true,
+        AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+    }))
 
 	userController:= new(controller.UserController)
 	authController:= new(controller.AuthController)
